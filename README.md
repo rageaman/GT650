@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://rageaman.github.io/GT650/">
-    <img src="https://img.shields.io/badge/🌐%20LIVE%20DEMO-DA3633?style=for-the-badge&labelColor=24292f&logoColor=white" alt="Live Demo" height="52">
+    <img src="https://img.shields.io/badge/%F0%9F%8C%90%20LIVE%20DEMO-DA3633?style=for-the-badge&labelColor=24292f" alt="Live Demo">
   </a>
 </p>
 
@@ -80,18 +80,9 @@ A compact playlist panel for browsing available tracks.
 
 <table>
 <tr>
-<td align="center" width="33%">
-<strong>HTML5</strong><br>
-Page structure
-</td>
-<td align="center" width="33%">
-<strong>CSS3</strong><br>
-Layout & styling
-</td>
-<td align="center" width="33%">
-<strong>JavaScript</strong><br>
-Player functionality
-</td>
+<td align="center" width="33%"><strong>HTML5</strong><br>Page structure</td>
+<td align="center" width="33%"><strong>CSS3</strong><br>Layout & styling</td>
+<td align="center" width="33%"><strong>JavaScript</strong><br>Player functionality</td>
 </tr>
 </table>
 
@@ -168,12 +159,12 @@ Contributions and improvements are welcome.
 
 <p align="center">
   <a href="https://github.com/rageaman/GT650">
-    <img src="https://img.shields.io/badge/⭐%20STAR%20THIS%20REPOSITORY-DA3633?style=for-the-badge&labelColor=24292f&logo=github&logoColor=white" alt="Star this repository">
+    <img src="https://img.shields.io/badge/%E2%98%85%20STAR%20THIS%20REPOSITORY-DA3633?style=for-the-badge&labelColor=24292f" alt="Star this repository">
   </a>
 </p>
 
 ---
 
 <p align="center">
-  <img src="https://img.shields.io/badge/♥%20MADE%20WITH%20LOVE%20BY-RAGEAMAN-24292f?style=for-the-badge" alt="Made with love by RageAman">
+  <img src="https://img.shields.io/badge/%E2%99%A5%20MADE%20WITH%20LOVE%20BY-RAGEAMAN-24292f?style=for-the-badge" alt="Made with love by RageAman">
 </p>
