@@ -1,5 +1,6 @@
 /* =========================================================
    GT650 — Audio-only YouTube playlist player
+   Real titles + thumbnails preloaded via YouTube oEmbed API
    ========================================================= */
 
 const PLAYLIST_ID = "PLYKPXq99tkmM";
@@ -7,7 +8,7 @@ const PLAYLIST_ID = "PLYKPXq99tkmM";
 let player;
 let isPlaying = false;
 let currentIndex = 0;
-let totalTracks = 0;
+let playlistData = []; // {videoId, title, thumbnail}
 let seekInterval;
 
 const trackTitleEl   = document.getElementById('trackTitle');
@@ -50,11 +51,13 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady() {
-  setTimeout(() => {
+  setTimeout(async () => {
     const ids = player.getPlaylist();
-    totalTracks = ids ? ids.length : 0;
-    buildPlaceholderList();
-    updateTrackInfo();
+    if (!ids || !ids.length) return;
+    await loadAllTrackDetails(ids);
+    renderPlaylist();
+    currentIndex = 0;
+    updateTrackInfo(); // show first track's real name before play is even pressed
   }, 1000);
 }
 
@@ -63,15 +66,33 @@ function onPlayerError(e) {
   nextBtn.click();
 }
 
-function buildPlaceholderList() {
+// Fetch real title + thumbnail for every video BEFORE playing, using YouTube's public oEmbed endpoint
+async function loadAllTrackDetails(ids) {
+  const requests = ids.map(async (id) => {
+    try {
+      const res = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`);
+      const data = await res.json();
+      return { videoId: id, title: data.title, thumbnail: data.thumbnail_url };
+    } catch (err) {
+      return { videoId: id, title: 'Unknown Track', thumbnail: '' };
+    }
+  });
+  playlistData = await Promise.all(requests);
+}
+
+function renderPlaylist() {
   playlistListEl.innerHTML = '';
-  for (let i = 0; i < totalTracks; i++) {
+  playlistData.forEach((track, i) => {
     const li = document.createElement('li');
     li.dataset.index = i;
-    li.innerHTML = `<span class="track-num">${i + 1}</span><span class="track-name">Track ${i + 1}</span>`;
+    li.innerHTML = `
+      <img class="track-thumb" src="${track.thumbnail}" alt="">
+      <span class="track-num">${i + 1}</span>
+      <span class="track-name">${track.title}</span>
+    `;
     li.addEventListener('click', () => player.playVideoAt(i));
     playlistListEl.appendChild(li);
-  }
+  });
   highlightActiveTrack();
 }
 
@@ -101,18 +122,18 @@ function setPlayIcon(playing) {
   pauseIcon.style.display = playing ? 'block' : 'none';
 }
 
+// Uses preloaded playlistData instead of waiting on player.getVideoData()
 function updateTrackInfo() {
   if (!player || !player.getPlaylistIndex) return;
   currentIndex = player.getPlaylistIndex();
-  const data = player.getVideoData();
-  const realTitle = (data && data.title) ? data.title : `Track ${currentIndex + 1}`;
+  if (currentIndex < 0) currentIndex = 0;
 
-  trackTitleEl.textContent = realTitle;
-  trackIndexEl.textContent = `Track ${currentIndex + 1} of ${totalTracks || '...'}`;
-
-  const li = playlistListEl.children[currentIndex];
-  if (li) li.querySelector('.track-name').textContent = realTitle;
-
+  const track = playlistData[currentIndex];
+  if (track) {
+    trackTitleEl.textContent = track.title;
+    trackIndexEl.textContent = `Track ${currentIndex + 1} of ${playlistData.length}`;
+    if (track.thumbnail) discEl.style.backgroundImage = `url(${track.thumbnail})`;
+  }
   highlightActiveTrack();
 }
 
@@ -177,7 +198,7 @@ function formatTime(sec) {
   return `${m}:${s < 10 ? '0' : ''}${s}`;
 }
 
-/* Playlist toggle (ab dock ke andar chhota icon hai) */
+/* Playlist popup toggle — same slide+fade animation as before */
 playlistToggle.addEventListener('click', () => {
   playlistPanel.classList.toggle('open');
   playlistToggle.classList.toggle('active-toggle');
