@@ -19,8 +19,6 @@
 <p align="center">
   <a href="https://rageaman.github.io/GT650/">🌐 Live Demo</a>
   &nbsp; • &nbsp;
-  <a href="https://github.com/rageaman/GT650/issues">🐛 Report Issue</a>
-  &nbsp; • &nbsp;
   <a href="https://github.com/rageaman/GT650">⭐ Repository</a>
 </p>
 
@@ -38,7 +36,7 @@ The player uses a floating glass-style control panel over a full-screen backgrou
 
 <table>
 <tr>
-<td width="50%">
+<td width="50%" valign="top">
 
 ### 🎧 Music Controls
 
@@ -49,7 +47,7 @@ The player uses a floating glass-style control panel over a full-screen backgrou
 - Mute / Unmute
 
 </td>
-<td width="50%">
+<td width="50%" valign="top">
 
 ### 🎨 Interface
 
@@ -71,13 +69,19 @@ The player uses a floating glass-style control panel over a full-screen backgrou
 
 <table>
 <tr>
-<td align="center">
-<b>Player</b><br><br>
+<td width="50%" align="center" valign="top">
+
+### 🎛️ Player
+
 Floating player controls with track information and playback controls.
+
 </td>
-<td align="center">
-<b>Playlist</b><br><br>
+<td width="50%" align="center" valign="top">
+
+### 📋 Playlist
+
 A compact playlist panel for browsing available tracks.
+
 </td>
 </tr>
 </table>
@@ -86,15 +90,13 @@ A compact playlist panel for browsing available tracks.
 
 ## 🛠️ Built With
 
-<p align="center">
-  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5">
-  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3">
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
-</p>
-
-- **HTML** — Page structure
-- **CSS** — Layout, responsive design and visual styling
-- **JavaScript** — Player controls and playlist functionality
+<table>
+<tr>
+<td align="center" width="33%"><b>HTML5</b><br>Page structure</td>
+<td align="center" width="33%"><b>CSS3</b><br>Layout & styling</td>
+<td align="center" width="33%"><b>JavaScript</b><br>Player functionality</td>
+</tr>
+</table>
 
 ---
 
@@ -102,15 +104,12 @@ A compact playlist panel for browsing available tracks.
 
 ```text
 GT650/
-│
 ├── background.jpg
 ├── index.html
 ├── script.js
 ├── style.css
 └── README.md
 ```
-
-### Files
 
 | File | Description |
 |------|-------------|
@@ -126,45 +125,32 @@ GT650/
 
 No build tools or package installation are required.
 
-### 1. Clone the repository
-
 ```bash
 git clone https://github.com/rageaman/GT650.git
-```
-
-### 2. Open the project
-
-```bash
 cd GT650
 ```
 
 Then open `index.html` in your browser.
 
-### Or use a local server
+For a local server:
 
 ```bash
 python -m http.server 8000
 ```
 
-Open:
-
-```text
-http://localhost:8000
-```
+Then visit `http://localhost:8000`.
 
 ---
 
 ## 📱 Responsive Design
 
-The interface is designed to adapt to smaller screens as well as desktop layouts.
-
-The mobile layout adjusts the player controls, spacing and playlist presentation for smaller displays.
+The interface adapts to smaller screens with adjusted controls, spacing and playlist presentation.
 
 ---
 
 ## 🎨 Design
 
-The interface is built around a minimal glass-style visual approach:
+The interface follows a minimal glass-style visual approach with:
 
 - Translucent surfaces
 - Background blur
@@ -173,50 +159,20 @@ The interface is built around a minimal glass-style visual approach:
 - Compact player layout
 - Responsive spacing
 
-The goal is to keep the controls visible without taking over the entire screen.
-
 ---
 
 ## 🤝 Contributing
 
-Contributions, suggestions and improvements are welcome.
-
-### Steps
+Contributions and improvements are welcome.
 
 ```bash
-# Fork the repository
-
-# Create your branch
 git checkout -b feature/improvement
-
-# Make your changes
 git add .
-
-# Commit
 git commit -m "Improve player"
-
-# Push
 git push origin feature/improvement
 ```
 
-Then open a Pull Request.
-
----
-
-## 🐛 Issues
-
-Found a bug or have an idea?
-
-Open an issue here:
-
-**https://github.com/rageaman/GT650/issues**
-
-Please include:
-
-- What happened
-- What you expected
-- Browser/device information
-- Steps to reproduce the issue
+Then open a Pull Request on GitHub.
 
 ---
 
