@@ -1,5 +1,6 @@
 /* =========================================================
-   GT650 — Audio-only YouTube player (smooth + low-lag)
+   GT650 — Audio-only YouTube player (stable, low-lag)
+   Keeps playing when switching browser tabs
    ========================================================= */
 
 const PLAYLIST_ID = "PLYKPXq99tkmM";
@@ -40,7 +41,7 @@ function onYouTubeIframeAPIReady() {
       fs: 0,
       modestbranding: 1,
       playsinline: 1,
-      iv_load_policy: 3,   // annotations off — thoda aur load fast
+      iv_load_policy: 3,
       rel: 0
     },
     events: {
@@ -52,22 +53,19 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady() {
-  // Video kabhi dikhta nahi, isliye lowest possible quality force karo —
-  // isse buffering/lag bahut kam ho jaata hai kyunki bandwidth sirf audio pe kharch hota hai
   try {
     player.setPlaybackQuality('small');
   } catch (e) {}
+
+  buildEmptyPlaylistShell();
 
   setTimeout(async () => {
     const ids = player.getPlaylist();
     if (!ids || !ids.length) return;
 
-    // Pehle sirf current track ki detail turant fetch karo (fast start)
     await loadTrackDetail(0, ids[0]);
     updateTrackInfo();
 
-    // Baaki saare tracks background mein, ek-ek karke (parallel nahi) load karo
-    // taaki network/browser pe ek saath load na aaye aur lag na ho
     for (let i = 1; i < ids.length; i++) {
       await loadTrackDetail(i, ids[i]);
       const li = playlistListEl.children[i];
@@ -77,8 +75,6 @@ function onPlayerReady() {
       }
     }
   }, 800);
-
-  buildEmptyPlaylistShell();
 }
 
 function buildEmptyPlaylistShell() {
@@ -156,7 +152,7 @@ function highlightActiveTrack() {
   });
 }
 
-/* Controls */
+/* ---------- Controls ---------- */
 playBtn.addEventListener('click', () => {
   if (!player) return;
   isPlaying ? player.pauseVideo() : player.playVideo();
@@ -182,7 +178,7 @@ muteBtn.addEventListener('click', () => {
   volIcon.style.opacity = isMuted ? '0.4' : '1';
 });
 
-/* Seek bar */
+/* ---------- Seek bar ---------- */
 function startSeekLoop() {
   stopSeekLoop();
   seekInterval = setInterval(() => {
@@ -211,8 +207,18 @@ function formatTime(sec) {
   return `${m}:${s < 10 ? '0' : ''}${s}`;
 }
 
-/* Playlist popup toggle */
+/* ---------- Playlist popup toggle ---------- */
 playlistToggle.addEventListener('click', () => {
   playlistPanel.classList.toggle('open');
   playlistToggle.classList.toggle('active-toggle');
+});
+
+/* ---------- Keep playing when switching to a new tab ---------- */
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && isPlaying && player && player.getPlayerState) {
+    const state = player.getPlayerState();
+    if (state !== YT.PlayerState.PLAYING) {
+      player.playVideo();
+    }
+  }
 });
