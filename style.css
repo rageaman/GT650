@@ -1,0 +1,308 @@
+:root{
+  --brand-red:#c8102e;
+  --glass-bg: rgba(255,255,255,0.08);
+  --glass-border: rgba(255,255,255,0.25);
+  --glass-shadow: rgba(0,0,0,0.45);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+
+html,body{height:100%;}
+
+body{
+  background: url('background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  color:#fff;
+  position:relative;
+  overflow-x:hidden;
+}
+
+.bg-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.65);
+  z-index:-1;
+}
+
+/* ---------- Header ---------- */
+.header{
+  text-align:center;
+  padding:40px 20px 10px;
+}
+.header h1{
+  font-size:2.3rem;
+  letter-spacing:2px;
+  text-shadow:2px 2px 8px rgba(0,0,0,0.8);
+}
+.header h1 span{color:var(--brand-red);}
+.tagline{
+  margin-top:6px;
+  font-size:0.9rem;
+  color:var(--brand-red);
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+/* ---------- Content ---------- */
+.content{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:30px 16px 160px;
+  gap:18px;
+}
+
+.yt-hidden{
+  width:0;
+  height:0;
+  overflow:hidden;
+  position:absolute;
+}
+
+.now-playing-card{
+  width:100%;
+  max-width:420px;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-radius:20px;
+  padding:20px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  box-shadow:0 8px 30px var(--glass-shadow);
+}
+
+.disc{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  background:conic-gradient(from 0deg, #1a1a1a, #333, #1a1a1a);
+  border:3px solid var(--brand-red);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  animation:spin 6s linear infinite;
+  animation-play-state:paused;
+  flex-shrink:0;
+}
+.disc.spinning{animation-play-state:running;}
+.disc-hole{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:#000;
+  border:2px solid #666;
+}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+.track-info{overflow:hidden;}
+.track-label{
+  font-size:0.7rem;
+  letter-spacing:2px;
+  color:var(--brand-red);
+  margin-bottom:4px;
+}
+#trackTitle{
+  font-size:1.05rem;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+#trackIndex{
+  font-size:0.8rem;
+  color:#ccc;
+  margin-top:3px;
+}
+
+/* ---------- Playlist toggle & panel ---------- */
+.playlist-toggle{
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(15px);
+  -webkit-backdrop-filter:blur(15px);
+  color:#fff;
+  padding:10px 18px;
+  border-radius:30px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  cursor:pointer;
+  font-size:0.85rem;
+  transition:transform .2s ease, background .2s ease;
+}
+.playlist-toggle:hover{background:rgba(255,255,255,0.15);}
+.playlist-toggle svg{transition:transform .3s ease;}
+.playlist-toggle.open svg{transform:rotate(180deg);}
+
+.playlist-panel{
+  width:100%;
+  max-width:420px;
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .35s ease;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-radius:16px;
+}
+.playlist-panel.open{
+  max-height:340px;
+  overflow-y:auto;
+}
+.playlist-panel ul{list-style:none;}
+.playlist-panel li{
+  padding:12px 18px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  cursor:pointer;
+  font-size:0.9rem;
+  transition:background .2s ease;
+}
+.playlist-panel li:last-child{border-bottom:none;}
+.playlist-panel li:hover{background:rgba(255,255,255,0.1);}
+.playlist-panel li.active{
+  background:rgba(200,16,46,0.25);
+  color:#fff;
+  font-weight:600;
+}
+.track-num{
+  min-width:22px;
+  height:22px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:0.75rem;
+  flex-shrink:0;
+}
+
+/* ---------- Cylindrical Glass Dock (Apple-glass style) ---------- */
+.dock{
+  position:fixed;
+  bottom:18px;
+  left:50%;
+  transform:translateX(-50%);
+  width:94%;
+  max-width:520px;
+  z-index:50;
+}
+
+.dock-glass{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 18px;
+  border-radius:999px; /* cylindrical pill shape */
+  background:rgba(255,255,255,0.10);
+  border:1px solid rgba(255,255,255,0.35);
+  backdrop-filter:blur(25px) saturate(180%);
+  -webkit-backdrop-filter:blur(25px) saturate(180%);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.5),
+    inset 0 1px 1px rgba(255,255,255,0.4),
+    inset 0 -1px 1px rgba(0,0,0,0.2);
+}
+
+.dock-btn{
+  background:transparent;
+  border:none;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  transition:background .2s ease, transform .15s ease;
+  flex-shrink:0;
+}
+.dock-btn:hover{background:rgba(255,255,255,0.15);}
+.dock-btn:active{transform:scale(0.9);}
+
+.play-btn{
+  width:46px;
+  height:46px;
+  background:var(--brand-red);
+  box-shadow:0 4px 14px rgba(200,16,46,0.6);
+}
+.play-btn:hover{background:#e0132f;}
+
+.dock-divider{
+  width:1px;
+  height:26px;
+  background:rgba(255,255,255,0.25);
+  flex-shrink:0;
+}
+
+.dock-progress-wrap{
+  flex:1;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+#curTime,#durTime{
+  font-size:0.7rem;
+  color:#ddd;
+  flex-shrink:0;
+  min-width:32px;
+}
+#durTime{text-align:right;}
+
+.seek-bar{
+  flex:1;
+  -webkit-appearance:none;
+  appearance:none;
+  height:4px;
+  border-radius:4px;
+  background:rgba(255,255,255,0.25);
+  outline:none;
+  cursor:pointer;
+}
+.seek-bar::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 6px rgba(0,0,0,0.4);
+  cursor:pointer;
+}
+.seek-bar::-moz-range-thumb{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#fff;
+  border:none;
+  cursor:pointer;
+}
+
+.vol-btn{margin-left:2px;}
+
+/* ---------- Footer ---------- */
+.footer{
+  text-align:center;
+  padding:14px;
+  font-size:0.8rem;
+  color:#ccc;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width:480px){
+  .header h1{font-size:1.7rem;}
+  .now-playing-card{padding:14px;gap:12px;}
+  .disc{width:56px;height:56px;}
+  #curTime,#durTime{display:none;}
+  .dock-glass{padding:8px 14px;}
+}
