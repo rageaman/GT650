@@ -62,7 +62,6 @@ async function onPlayerReady() {
     const ids = player.getPlaylist();
     if (!ids || !ids.length) return;
 
-    // Load every track independently so every playlist item gets metadata.
     await Promise.all(ids.map((id, i) => loadTrackDetail(i, id)));
 
     ids.forEach((_, i) => updatePlaylistItem(i));
@@ -86,7 +85,6 @@ function buildEmptyPlaylistShell() {
       <span class="track-name">Loading...</span>
     `;
 
-    // Clicking any visible or scrolled-to track plays that exact track.
     li.addEventListener('click', () => {
       if (!player) return;
       player.playVideoAt(i);
@@ -180,7 +178,6 @@ function highlightActiveTrack() {
     li.classList.toggle('active', i === currentIndex);
   });
 
-  // Keep the currently playing song visible without forcing manual scrolling.
   const activeItem = playlistListEl.children[currentIndex];
   if (activeItem && playlistPanel.classList.contains('open')) {
     activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -242,13 +239,74 @@ function formatTime(sec) {
   return `${m}:${s < 10 ? '0' : ''}${s}`;
 }
 
+/* ---------- Keyboard controls ---------- */
+document.addEventListener('keydown', (e) => {
+  if (!player) return;
+
+  // Don't hijack keyboard input while typing in a text field.
+  const target = e.target;
+  const isTyping = target instanceof HTMLElement && (
+    target.tagName === 'INPUT' ||
+    target.tagName === 'TEXTAREA' ||
+    target.tagName === 'SELECT' ||
+    target.isContentEditable
+  );
+  if (isTyping) return;
+
+  switch (e.code) {
+    case 'Space':
+      e.preventDefault();
+      isPlaying ? player.pauseVideo() : player.playVideo();
+      break;
+
+    case 'ArrowLeft':
+      e.preventDefault();
+      player.seekTo(Math.max(0, player.getCurrentTime() - 5), true);
+      break;
+
+    case 'ArrowRight':
+      e.preventDefault();
+      player.seekTo(Math.min(player.getDuration(), player.getCurrentTime() + 5), true);
+      break;
+
+    case 'ArrowUp':
+      e.preventDefault();
+      player.setVolume(Math.min(100, player.getVolume() + 5));
+      break;
+
+    case 'ArrowDown':
+      e.preventDefault();
+      player.setVolume(Math.max(0, player.getVolume() - 5));
+      break;
+
+    case 'KeyM':
+      e.preventDefault();
+      muteBtn.click();
+      break;
+
+    case 'KeyN':
+      e.preventDefault();
+      nextBtn.click();
+      break;
+
+    case 'KeyP':
+      e.preventDefault();
+      prevBtn.click();
+      break;
+
+    case 'KeyL':
+      e.preventDefault();
+      playlistToggle.click();
+      break;
+  }
+});
+
 /* ---------- Playlist popup toggle ---------- */
 playlistToggle.addEventListener('click', () => {
   playlistPanel.classList.toggle('open');
   playlistToggle.classList.toggle('active-toggle');
 
   if (playlistPanel.classList.contains('open')) {
-    // When opening, bring the current song into view.
     const activeItem = playlistListEl.children[currentIndex];
     if (activeItem) {
       activeItem.scrollIntoView({ behavior: 'auto', block: 'nearest' });
