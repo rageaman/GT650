@@ -1,6 +1,5 @@
 /* =========================================================
    GT650 — Audio-only YouTube player (stable, low-lag)
-   Keeps playing when switching browser tabs
    ========================================================= */
 
 const PLAYLIST_ID = "PLYKPXq99tkmM";
@@ -211,14 +210,4 @@ function formatTime(sec) {
 playlistToggle.addEventListener('click', () => {
   playlistPanel.classList.toggle('open');
   playlistToggle.classList.toggle('active-toggle');
-});
-
-/* ---------- Keep playing when switching to a new tab ---------- */
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden && isPlaying && player && player.getPlayerState) {
-    const state = player.getPlayerState();
-    if (state !== YT.PlayerState.PLAYING) {
-      player.playVideo();
-    }
-  }
 });
