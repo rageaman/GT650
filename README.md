@@ -5,21 +5,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/rageaman/GT650">
-    <img src="https://img.shields.io/github/stars/rageaman/GT650?style=for-the-badge" alt="GitHub Stars">
+  <a href="https://rageaman.github.io/GT650/">
+    <img src="https://img.shields.io/badge/🌐%20LIVE%20DEMO-000000?style=for-the-badge" alt="Live Demo">
   </a>
-  <a href="https://github.com/rageaman/GT650">
-    <img src="https://img.shields.io/github/forks/rageaman/GT650?style=for-the-badge" alt="GitHub Forks">
-  </a>
-  <a href="https://github.com/rageaman/GT650">
-    <img src="https://img.shields.io/github/last-commit/rageaman/GT650?style=for-the-badge" alt="Last Commit">
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://rageaman.github.io/GT650/">🌐 Live Demo</a>
-  &nbsp; • &nbsp;
-  <a href="https://github.com/rageaman/GT650">⭐ Repository</a>
 </p>
 
 ---
@@ -34,69 +22,29 @@ The player uses a floating glass-style control panel over a full-screen backgrou
 
 ## ✨ Features
 
-<table>
-<tr>
-<td width="50%" valign="top">
-
-### 🎧 Music Controls
-
-- Play / Pause
-- Previous track
-- Next track
-- Seek through the current track
-- Mute / Unmute
-
-</td>
-<td width="50%" valign="top">
-
-### 🎨 Interface
-
-- Glass-style player dock
-- Background artwork
-- Track thumbnail
-- Track information
-- Progress bar
-- Playlist panel
-- Active track indication
-
-</td>
-</tr>
-</table>
+| 🎧 Music Controls | 🎨 Interface |
+|:---:|:---:|
+| ▶️ Play / Pause | 🪟 Glass-style player dock |
+| ⏮️ Previous track | 🖼️ Background artwork |
+| ⏭️ Next track | 🎵 Track thumbnail |
+| 🔘 Seek through track | 📝 Track information |
+| 🔇 Mute / Unmute | 📋 Playlist panel |
 
 ---
 
 ## 🖥️ Interface
 
-<table>
-<tr>
-<td width="50%" align="center" valign="top">
-
-### 🎛️ Player
-
-Floating player controls with track information and playback controls.
-
-</td>
-<td width="50%" align="center" valign="top">
-
-### 📋 Playlist
-
-A compact playlist panel for browsing available tracks.
-
-</td>
-</tr>
-</table>
+| 🎛️ Player | 📋 Playlist |
+|:---:|:---:|
+| Floating player controls with track information and playback controls. | Compact playlist panel for browsing available tracks. |
 
 ---
 
 ## 🛠️ Built With
 
-<table>
-<tr>
-<td align="center" width="33%"><b>HTML5</b><br>Page structure</td>
-<td align="center" width="33%"><b>CSS3</b><br>Layout & styling</td>
-<td align="center" width="33%"><b>JavaScript</b><br>Player functionality</td>
-</tr>
-</table>
+| HTML5 | CSS3 | JavaScript |
+|:---:|:---:|:---:|
+| Page structure | Layout & styling | Player functionality |
 
 ---
 
@@ -112,7 +60,7 @@ GT650/
 ```
 
 | File | Description |
-|------|-------------|
+|:---|:---|
 | `index.html` | Main page structure |
 | `style.css` | Interface and responsive styling |
 | `script.js` | Player functionality |
@@ -182,7 +130,7 @@ If you like the project, consider giving the repository a ⭐ on GitHub.
 
 <p align="center">
   <a href="https://github.com/rageaman/GT650">
-    <img src="https://img.shields.io/badge/⭐%20Star%20this%20repository-181717?style=for-the-badge&logo=github" alt="Star Repository">
+    <img src="https://img.shields.io/badge/⭐%20STAR%20THIS%20REPOSITORY-181717?style=for-the-badge&logo=github" alt="Star this repository">
   </a>
 </p>
 
