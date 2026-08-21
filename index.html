@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Royal Enfield GT 650 | Music Zone</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="bg-overlay"></div>
+
+  <header class="header">
+    <h1>ROYAL ENFIELD <span>GT 650</span></h1>
+    <p class="tagline">Ride Loud. Play Loud.</p>
+  </header>
+
+  <!-- Hidden YouTube player (audio engine) -->
+  <div id="yt-player" class="yt-hidden"></div>
+
+  <main class="content">
+    <div class="now-playing-card">
+      <div class="disc" id="disc">
+        <div class="disc-hole"></div>
+      </div>
+      <div class="track-info">
+        <p class="track-label">NOW PLAYING</p>
+        <h2 id="trackTitle">Loading track...</h2>
+        <p id="trackIndex">Track 1</p>
+      </div>
+    </div>
+
+    <button class="playlist-toggle" id="playlistToggle">
+      <span>View Playlist</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M6 9l6 6 6-6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <div class="playlist-panel" id="playlistPanel">
+      <ul id="playlistList"></ul>
+    </div>
+  </main>
+
+  <!-- Cylindrical Glass Music Dock -->
+  <div class="dock">
+    <div class="dock-glass">
+
+      <button class="dock-btn" id="prevBtn" aria-label="Previous">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M19 20L9 12l10-8v16zM7 4v16H5V4h2z" fill="currentColor"/></svg>
+      </button>
+
+      <button class="dock-btn play-btn" id="playBtn" aria-label="Play/Pause">
+        <svg id="playIcon" viewBox="0 0 24 24" width="24" height="24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+        <svg id="pauseIcon" viewBox="0 0 24 24" width="24" height="24" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor"/></svg>
+      </button>
+
+      <button class="dock-btn" id="nextBtn" aria-label="Next">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M5 4l10 8-10 8V4zm12 0v16h2V4h-2z" fill="currentColor"/></svg>
+      </button>
+
+      <div class="dock-divider"></div>
+
+      <div class="dock-progress-wrap">
+        <span id="curTime">0:00</span>
+        <input type="range" id="seekBar" class="seek-bar" value="0" min="0" max="100" step="0.1">
+        <span id="durTime">0:00</span>
+      </div>
+
+      <button class="dock-btn vol-btn" id="muteBtn" aria-label="Mute">
+        <svg id="volIcon" viewBox="0 0 24 24" width="18" height="18"><path d="M3 10v4h4l5 5V5L7 10H3z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2026 GT 650 Music Zone</p>
+  </footer>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="script.js"></script>
+</body>
+</html>
