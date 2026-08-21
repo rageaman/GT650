@@ -49,7 +49,7 @@ body{
   gap:16px;
 }
 
-/* Glass card */
+/* Glass now-playing card */
 .now-playing-card{
   width:100%;
   max-width:400px;
@@ -67,21 +67,33 @@ body{
     inset 0 1px 1px rgba(255,255,255,0.35);
 }
 
+/* Disc now shows real thumbnail as its background */
 .disc{
   width:64px;
   height:64px;
   border-radius:50%;
-  background:conic-gradient(from 0deg,#1a1a1a,#333,#1a1a1a);
+  background-color:#1a1a1a;
+  background-size:cover;
+  background-position:center;
   border:3px solid var(--brand-red);
+  position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
   animation:spin 6s linear infinite;
   animation-play-state:paused;
   flex-shrink:0;
+  box-shadow:0 2px 10px rgba(0,0,0,0.4);
 }
 .disc.spinning{animation-play-state:running;}
-.disc-hole{width:12px;height:12px;border-radius:50%;background:#000;border:2px solid #666;}
+.disc-hole{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#000;
+  border:2px solid #666;
+  z-index:2;
+}
 @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 
 .track-info{overflow:hidden;}
@@ -93,51 +105,7 @@ body{
 }
 #trackIndex{font-size:0.78rem;color:#ddd;margin-top:4px;}
 
-/* Glass playlist panel (floats above dock) */
-.playlist-panel{
-  width:100%;
-  max-width:400px;
-  max-height:0;
-  overflow:hidden;
-  transition:max-height .35s ease;
-  background:var(--glass-bg);
-  border:1px solid var(--glass-border);
-  backdrop-filter:blur(24px) saturate(180%);
-  -webkit-backdrop-filter:blur(24px) saturate(180%);
-  border-radius:16px;
-  box-shadow:0 8px 32px var(--glass-shadow);
-}
-.playlist-panel.open{
-  max-height:300px;
-  overflow-y:auto;
-}
-.playlist-panel ul{list-style:none;}
-.playlist-panel li{
-  padding:11px 16px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  border-bottom:1px solid rgba(255,255,255,0.08);
-  cursor:pointer;
-  font-size:0.88rem;
-  transition:background .2s ease;
-}
-.playlist-panel li:last-child{border-bottom:none;}
-.playlist-panel li:hover{background:rgba(255,255,255,0.1);}
-.playlist-panel li.active{background:rgba(200,16,46,0.25);font-weight:600;}
-.track-num{
-  min-width:20px;
-  height:20px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.15);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:0.7rem;
-  flex-shrink:0;
-}
-
-/* ---------- Cylindrical Glass Dock ---------- */
+/* ---------- Dock wrapper (relative, so playlist popup can anchor to it) ---------- */
 .dock{
   position:fixed;
   bottom:18px;
@@ -148,6 +116,66 @@ body{
   z-index:50;
 }
 
+/* Small floating glass playlist popup — right above playlist button */
+.playlist-panel{
+  position:absolute;
+  bottom:calc(100% + 12px);
+  right:6px;
+  width:260px;
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(8px);
+  transition:max-height .35s ease, opacity .3s ease, transform .3s ease;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  backdrop-filter:blur(26px) saturate(190%);
+  -webkit-backdrop-filter:blur(26px) saturate(190%);
+  border-radius:16px;
+  box-shadow:0 8px 32px var(--glass-shadow);
+}
+.playlist-panel.open{
+  max-height:320px;
+  overflow-y:auto;
+  opacity:1;
+  transform:translateY(0);
+}
+.playlist-panel ul{list-style:none;}
+.playlist-panel li{
+  padding:9px 12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  cursor:pointer;
+  font-size:0.82rem;
+  transition:background .2s ease;
+}
+.playlist-panel li:last-child{border-bottom:none;}
+.playlist-panel li:hover{background:rgba(255,255,255,0.1);}
+.playlist-panel li.active{background:rgba(200,16,46,0.25);font-weight:600;}
+
+.track-thumb{
+  width:32px;
+  height:32px;
+  border-radius:6px;
+  object-fit:cover;
+  flex-shrink:0;
+  background:#222;
+}
+.track-num{
+  min-width:16px;
+  font-size:0.7rem;
+  color:#bbb;
+  flex-shrink:0;
+}
+.track-name{
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+/* ---------- Cylindrical Glass Dock ---------- */
 .dock-glass{
   display:flex;
   align-items:center;
@@ -224,8 +252,6 @@ body{
   width:11px;height:11px;border-radius:50%;background:#fff;border:none;cursor:pointer;
 }
 
-.vol-btn{margin-left:2px;}
-
 @media (max-width:480px){
   .now-playing-card{padding:14px;gap:12px;}
   .disc{width:52px;height:52px;}
@@ -233,4 +259,5 @@ body{
   .dock-glass{padding:8px 12px;gap:5px;}
   .dock-btn{width:30px;height:30px;}
   .play-btn{width:40px;height:40px;}
+  .playlist-panel{width:220px;}
 }
