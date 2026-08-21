@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://rageaman.github.io/GT650/">
-    <img src="https://img.shields.io/badge/%F0%9F%8C%90%20%20LIVE%20DEMO-DA3633?style=for-the-badge&labelColor=24292f&logoColor=white" alt="Live Demo" height="48">
+    <img src="https://img.shields.io/badge/%F0%9F%8C%90-LIVE%20DEMO-DA3633?style=for-the-badge&labelColor=24292f&logoColor=white" alt="Live Demo">
   </a>
 </p>
 
@@ -177,12 +177,12 @@ Then open a Pull Request on GitHub.
 
 <p align="center">
   <a href="https://github.com/rageaman/GT650">
-    <img src="https://img.shields.io/badge/⭐%20STAR%20THIS%20REPOSITORY-6e40c9?style=for-the-badge&logo=github&logoColor=white" alt="Star this repository">
+    <img src="https://img.shields.io/badge/%E2%98%85-STAR%20THIS%20REPOSITORY-DA3633?style=for-the-badge&labelColor=24292f&logo=github&logoColor=white" alt="Star this repository">
   </a>
 </p>
 
 ---
 
 <p align="center">
-  <img src="https://img.shields.io/badge/♥%20MADE%20WITH%20LOVE%20BY-RAGEAMAN-24292f?style=for-the-badge" alt="Made with love by RageAman">
+  <img src="https://img.shields.io/badge/%E2%99%A5-MADE%20WITH%20LOVE%20BY-RAGEAMAN-24292f?style=for-the-badge" alt="Made with love by RageAman">
 </p>
