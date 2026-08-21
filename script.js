@@ -1,6 +1,5 @@
 /* =========================================================
-   GT 650 Music Zone — YouTube IFrame API powered player
-   Real playlist control: play/pause/next/prev/seek/track-name
+   GT 650 Music Zone — YouTube IFrame API (Audio-only player)
    ========================================================= */
 
 const PLAYLIST_ID = "PLYKPXq99tkmM";
@@ -8,7 +7,7 @@ const PLAYLIST_ID = "PLYKPXq99tkmM";
 let player;
 let isPlaying = false;
 let currentIndex = 0;
-let playlistData = []; // {index, videoId, title}
+let totalTracks = 0;
 let seekInterval;
 
 // DOM refs
@@ -29,75 +28,57 @@ const playlistToggle = document.getElementById('playlistToggle');
 const playlistPanel  = document.getElementById('playlistPanel');
 const playlistListEl = document.getElementById('playlistList');
 
-// Called automatically by YouTube IFrame API script
+// YouTube API is required to call this exact global function name
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('yt-player', {
-    height: '0',
-    width: '0',
+    height: '1',
+    width: '1',
     playerVars: {
       listType: 'playlist',
       list: PLAYLIST_ID,
       autoplay: 0,
-      controls: 0
+      controls: 0,
+      disablekb: 1,
+      fs: 0,
+      modestbranding: 1,
+      playsinline: 1
     },
     events: {
       onReady: onPlayerReady,
-      onStateChange: onPlayerStateChange
+      onStateChange: onPlayerStateChange,
+      onError: onPlayerError
     }
   });
 }
 
 function onPlayerReady() {
-  buildPlaylistUI();
-  updateTrackInfo();
-}
-
-function buildPlaylistUI() {
-  // Wait briefly for playlist to populate internally
+  // Playlist thodi der baad load hoti hai, isliye wait karke build karo
   setTimeout(() => {
     const ids = player.getPlaylist();
-    if (!ids) return;
-    playlistData = ids.map((id, i) => ({ index: i, videoId: id, title: `Track ${i + 1}` }));
-    renderPlaylist();
-    fetchTitles();
-  }, 800);
+    totalTracks = ids ? ids.length : 0;
+    buildPlaceholderList();
+    updateTrackInfo();
+  }, 1000);
 }
 
-function renderPlaylist() {
+function onPlayerError(e) {
+  console.warn('YouTube player error:', e.data);
+  nextBtn.click(); // agla song try karo agar ek fail ho
+}
+
+// Pehle simple "Track 1, Track 2..." list banao (fast + reliable)
+function buildPlaceholderList() {
   playlistListEl.innerHTML = '';
-  playlistData.forEach((track) => {
+  for (let i = 0; i < totalTracks; i++) {
     const li = document.createElement('li');
-    li.dataset.index = track.index;
-    li.innerHTML = `<span class="track-num">${track.index + 1}</span><span class="track-name">${track.title}</span>`;
+    li.dataset.index = i;
+    li.innerHTML = `<span class="track-num">${i + 1}</span><span class="track-name">Track ${i + 1}</span>`;
     li.addEventListener('click', () => {
-      player.playVideoAt(track.index);
+      player.playVideoAt(i);
     });
     playlistListEl.appendChild(li);
-  });
+  }
   highlightActiveTrack();
-}
-
-// Get real video titles one by one using a temporary player state read
-function fetchTitles() {
-  const originalIndex = player.getPlaylistIndex();
-  playlistData.forEach((track, i) => {
-    setTimeout(() => {
-      player.playVideoAt(i);
-      setTimeout(() => {
-        const data = player.getVideoData();
-        if (data && data.title) {
-          playlistData[i].title = data.title;
-          const li = playlistListEl.children[i];
-          if (li) li.querySelector('.track-name').textContent = data.title;
-        }
-        if (i === playlistData.length - 1) {
-          player.playVideoAt(originalIndex);
-          player.pauseVideo();
-          updateTrackInfo();
-        }
-      }, 400);
-    }, i * 700);
-  });
 }
 
 function onPlayerStateChange(e) {
@@ -116,6 +97,8 @@ function onPlayerStateChange(e) {
     isPlaying = false;
     setPlayIcon(false);
     discEl.classList.remove('spinning');
+  } else if (e.data === YT.PlayerState.CUED) {
+    updateTrackInfo();
   }
 }
 
@@ -124,12 +107,20 @@ function setPlayIcon(playing) {
   pauseIcon.style.display = playing ? 'block' : 'none';
 }
 
+// Current playing track ka asli naam yahin se update hota hai (safe & simple)
 function updateTrackInfo() {
+  if (!player || !player.getPlaylistIndex) return;
   currentIndex = player.getPlaylistIndex();
   const data = player.getVideoData();
-  const title = (data && data.title) ? data.title : `Track ${currentIndex + 1}`;
-  trackTitleEl.textContent = title;
-  trackIndexEl.textContent = `Track ${currentIndex + 1} of ${playlistData.length || '...'}`;
+  const realTitle = (data && data.title) ? data.title : `Track ${currentIndex + 1}`;
+
+  trackTitleEl.textContent = realTitle;
+  trackIndexEl.textContent = `Track ${currentIndex + 1} of ${totalTracks || '...'}`;
+
+  // Playlist panel mein bhi naam update kar do
+  const li = playlistListEl.children[currentIndex];
+  if (li) li.querySelector('.track-name').textContent = realTitle;
+
   highlightActiveTrack();
 }
 
@@ -148,13 +139,13 @@ playBtn.addEventListener('click', () => {
 prevBtn.addEventListener('click', () => {
   if (!player) return;
   player.previousVideo();
-  setTimeout(updateTrackInfo, 500);
+  setTimeout(updateTrackInfo, 600);
 });
 
 nextBtn.addEventListener('click', () => {
   if (!player) return;
   player.nextVideo();
-  setTimeout(updateTrackInfo, 500);
+  setTimeout(updateTrackInfo, 600);
 });
 
 let isMuted = false;
