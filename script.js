@@ -1,5 +1,5 @@
 /* =========================================================
-   GT 650 Music Zone — YouTube IFrame API (Audio-only player)
+   GT650 — Audio-only YouTube playlist player
    ========================================================= */
 
 const PLAYLIST_ID = "PLYKPXq99tkmM";
@@ -10,7 +10,6 @@ let currentIndex = 0;
 let totalTracks = 0;
 let seekInterval;
 
-// DOM refs
 const trackTitleEl   = document.getElementById('trackTitle');
 const trackIndexEl   = document.getElementById('trackIndex');
 const discEl         = document.getElementById('disc');
@@ -28,7 +27,6 @@ const playlistToggle = document.getElementById('playlistToggle');
 const playlistPanel  = document.getElementById('playlistPanel');
 const playlistListEl = document.getElementById('playlistList');
 
-// YouTube API is required to call this exact global function name
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('yt-player', {
     height: '1',
@@ -52,7 +50,6 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady() {
-  // Playlist thodi der baad load hoti hai, isliye wait karke build karo
   setTimeout(() => {
     const ids = player.getPlaylist();
     totalTracks = ids ? ids.length : 0;
@@ -63,19 +60,16 @@ function onPlayerReady() {
 
 function onPlayerError(e) {
   console.warn('YouTube player error:', e.data);
-  nextBtn.click(); // agla song try karo agar ek fail ho
+  nextBtn.click();
 }
 
-// Pehle simple "Track 1, Track 2..." list banao (fast + reliable)
 function buildPlaceholderList() {
   playlistListEl.innerHTML = '';
   for (let i = 0; i < totalTracks; i++) {
     const li = document.createElement('li');
     li.dataset.index = i;
     li.innerHTML = `<span class="track-num">${i + 1}</span><span class="track-name">Track ${i + 1}</span>`;
-    li.addEventListener('click', () => {
-      player.playVideoAt(i);
-    });
+    li.addEventListener('click', () => player.playVideoAt(i));
     playlistListEl.appendChild(li);
   }
   highlightActiveTrack();
@@ -107,7 +101,6 @@ function setPlayIcon(playing) {
   pauseIcon.style.display = playing ? 'block' : 'none';
 }
 
-// Current playing track ka asli naam yahin se update hota hai (safe & simple)
 function updateTrackInfo() {
   if (!player || !player.getPlaylistIndex) return;
   currentIndex = player.getPlaylistIndex();
@@ -117,7 +110,6 @@ function updateTrackInfo() {
   trackTitleEl.textContent = realTitle;
   trackIndexEl.textContent = `Track ${currentIndex + 1} of ${totalTracks || '...'}`;
 
-  // Playlist panel mein bhi naam update kar do
   const li = playlistListEl.children[currentIndex];
   if (li) li.querySelector('.track-name').textContent = realTitle;
 
@@ -130,7 +122,7 @@ function highlightActiveTrack() {
   });
 }
 
-/* ---------- Controls ---------- */
+/* Controls */
 playBtn.addEventListener('click', () => {
   if (!player) return;
   isPlaying ? player.pauseVideo() : player.playVideo();
@@ -156,7 +148,7 @@ muteBtn.addEventListener('click', () => {
   volIcon.style.opacity = isMuted ? '0.4' : '1';
 });
 
-/* ---------- Seek bar ---------- */
+/* Seek bar */
 function startSeekLoop() {
   stopSeekLoop();
   seekInterval = setInterval(() => {
@@ -170,15 +162,12 @@ function startSeekLoop() {
     }
   }, 500);
 }
-function stopSeekLoop() {
-  clearInterval(seekInterval);
-}
+function stopSeekLoop(){ clearInterval(seekInterval); }
 
 seekBar.addEventListener('input', () => {
   if (!player) return;
   const dur = player.getDuration();
-  const seekTo = (seekBar.value / 100) * dur;
-  player.seekTo(seekTo, true);
+  player.seekTo((seekBar.value / 100) * dur, true);
 });
 
 function formatTime(sec) {
@@ -188,10 +177,8 @@ function formatTime(sec) {
   return `${m}:${s < 10 ? '0' : ''}${s}`;
 }
 
-/* ---------- Playlist panel toggle ---------- */
+/* Playlist toggle (ab dock ke andar chhota icon hai) */
 playlistToggle.addEventListener('click', () => {
   playlistPanel.classList.toggle('open');
-  playlistToggle.classList.toggle('open');
-  const label = playlistToggle.querySelector('span');
-  label.textContent = playlistPanel.classList.contains('open') ? 'Hide Playlist' : 'View Playlist';
+  playlistToggle.classList.toggle('active-toggle');
 });
