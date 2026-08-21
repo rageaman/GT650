@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://rageaman.github.io/GT650/">
-    <img src="https://img.shields.io/badge/%F0%9F%8C%90%20LIVE%20DEMO-238636?style=for-the-badge&labelColor=24292f" alt="Live Demo">
+    <img src="https://img.shields.io/badge/%F0%9F%8C%90%20LIVE%20DEMO-DA3633?style=for-the-badge&labelColor=24292f" alt="Live Demo">
   </a>
 </p>
 
