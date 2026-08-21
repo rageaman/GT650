@@ -51,7 +51,7 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
-function onPlayerReady() {
+async function onPlayerReady() {
   try {
     player.setPlaybackQuality('small');
   } catch (e) {}
@@ -62,25 +62,23 @@ function onPlayerReady() {
     const ids = player.getPlaylist();
     if (!ids || !ids.length) return;
 
-    await loadTrackDetail(0, ids[0]);
-    updateTrackInfo();
+    // Load every track independently so the first item is also
+    // replaced as soon as its metadata becomes available.
+    await Promise.all(ids.map((id, i) => loadTrackDetail(i, id)));
 
-    for (let i = 1; i < ids.length; i++) {
-      await loadTrackDetail(i, ids[i]);
-      const li = playlistListEl.children[i];
-      if (li) {
-        li.querySelector('.track-name').textContent = playlistData[i].title;
-        li.querySelector('.track-thumb').src = playlistData[i].thumbnail;
-      }
-    }
+    ids.forEach((_, i) => updatePlaylistItem(i));
+    updateTrackInfo();
   }, 800);
 }
 
 function buildEmptyPlaylistShell() {
   const ids = player.getPlaylist() || [];
+  playlistData = [];
   playlistListEl.innerHTML = '';
+
   ids.forEach((id, i) => {
     playlistData[i] = { videoId: id, title: 'Loading...', thumbnail: '' };
+
     const li = document.createElement('li');
     li.dataset.index = i;
     li.innerHTML = `
@@ -96,10 +94,35 @@ function buildEmptyPlaylistShell() {
 async function loadTrackDetail(index, videoId) {
   try {
     const res = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${videoId}&format=json`);
+    if (!res.ok) throw new Error(`oEmbed request failed: ${res.status}`);
+
     const data = await res.json();
-    playlistData[index] = { videoId, title: data.title, thumbnail: data.thumbnail_url };
+    playlistData[index] = {
+      videoId,
+      title: data.title || `Track ${index + 1}`,
+      thumbnail: data.thumbnail_url || ''
+    };
   } catch (err) {
-    playlistData[index] = { videoId, title: `Track ${index + 1}`, thumbnail: '' };
+    playlistData[index] = {
+      videoId,
+      title: `Track ${index + 1}`,
+      thumbnail: ''
+    };
+  }
+}
+
+function updatePlaylistItem(index) {
+  const li = playlistListEl.children[index];
+  const track = playlistData[index];
+  if (!li || !track) return;
+
+  const nameEl = li.querySelector('.track-name');
+  const thumbEl = li.querySelector('.track-thumb');
+
+  if (nameEl) nameEl.textContent = track.title;
+  if (thumbEl) {
+    thumbEl.src = track.thumbnail;
+    thumbEl.alt = track.title;
   }
 }
 
