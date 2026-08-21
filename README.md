@@ -26,14 +26,6 @@
 
 ---
 
-## ✨ Preview
-
-<p align="center">
-  <img src="background.jpg" alt="Project Preview" width="900">
-</p>
-
----
-
 ## 🎵 About
 
 A simple browser-based music player focused on a clean interface and smooth controls.
@@ -116,3 +108,130 @@ GT650/
 ├── script.js
 ├── style.css
 └── README.md
+```
+
+### Files
+
+| File | Description |
+|------|-------------|
+| `index.html` | Main page structure |
+| `style.css` | Interface and responsive styling |
+| `script.js` | Player functionality |
+| `background.jpg` | Background artwork |
+| `README.md` | Project documentation |
+
+---
+
+## 🚀 Run Locally
+
+No build tools or package installation are required.
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/rageaman/GT650.git
+```
+
+### 2. Open the project
+
+```bash
+cd GT650
+```
+
+Then open `index.html` in your browser.
+
+### Or use a local server
+
+```bash
+python -m http.server 8000
+```
+
+Open:
+
+```text
+http://localhost:8000
+```
+
+---
+
+## 📱 Responsive Design
+
+The interface is designed to adapt to smaller screens as well as desktop layouts.
+
+The mobile layout adjusts the player controls, spacing and playlist presentation for smaller displays.
+
+---
+
+## 🎨 Design
+
+The interface is built around a minimal glass-style visual approach:
+
+- Translucent surfaces
+- Background blur
+- Rounded controls
+- Soft shadows
+- Compact player layout
+- Responsive spacing
+
+The goal is to keep the controls visible without taking over the entire screen.
+
+---
+
+## 🤝 Contributing
+
+Contributions, suggestions and improvements are welcome.
+
+### Steps
+
+```bash
+# Fork the repository
+
+# Create your branch
+git checkout -b feature/improvement
+
+# Make your changes
+git add .
+
+# Commit
+git commit -m "Improve player"
+
+# Push
+git push origin feature/improvement
+```
+
+Then open a Pull Request.
+
+---
+
+## 🐛 Issues
+
+Found a bug or have an idea?
+
+Open an issue here:
+
+**https://github.com/rageaman/GT650/issues**
+
+Please include:
+
+- What happened
+- What you expected
+- Browser/device information
+- Steps to reproduce the issue
+
+---
+
+## ⭐ Support
+
+If you like the project, consider giving the repository a ⭐ on GitHub.
+
+<p align="center">
+  <a href="https://github.com/rageaman/GT650">
+    <img src="https://img.shields.io/badge/⭐%20Star%20this%20repository-181717?style=for-the-badge&logo=github" alt="Star Repository">
+  </a>
+</p>
+
+---
+
+<p align="center">
+  Made with ❤️ by <a href="https://github.com/rageaman">RageAman</a>
+</p>
