@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="YOUR_DEMO_LINK">🌐 Live Demo</a>
+  <a href="https://rageaman.github.io/GT650/">🌐 Live Demo</a>
   &nbsp; • &nbsp;
   <a href="https://github.com/rageaman/GT650/issues">🐛 Report Issue</a>
   &nbsp; • &nbsp;
