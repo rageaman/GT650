@@ -162,15 +162,6 @@ The interface follows a minimal glass-style visual approach with:
 
 Contributions and improvements are welcome.
 
-```bash
-git checkout -b feature/improvement
-git add .
-git commit -m "Improve player"
-git push origin feature/improvement
-```
-
-Then open a Pull Request on GitHub.
-
 ---
 
 ## ⭐ Support
