@@ -62,8 +62,7 @@ async function onPlayerReady() {
     const ids = player.getPlaylist();
     if (!ids || !ids.length) return;
 
-    // Load every track independently so the first item is also
-    // replaced as soon as its metadata becomes available.
+    // Load every track independently so every playlist item gets metadata.
     await Promise.all(ids.map((id, i) => loadTrackDetail(i, id)));
 
     ids.forEach((_, i) => updatePlaylistItem(i));
@@ -86,7 +85,15 @@ function buildEmptyPlaylistShell() {
       <span class="track-num">${i + 1}</span>
       <span class="track-name">Loading...</span>
     `;
-    li.addEventListener('click', () => player.playVideoAt(i));
+
+    // Clicking any visible or scrolled-to track plays that exact track.
+    li.addEventListener('click', () => {
+      if (!player) return;
+      player.playVideoAt(i);
+      playlistPanel.classList.add('open');
+      playlistToggle.classList.add('active-toggle');
+    });
+
     playlistListEl.appendChild(li);
   });
 }
@@ -172,6 +179,12 @@ function highlightActiveTrack() {
   [...playlistListEl.children].forEach((li, i) => {
     li.classList.toggle('active', i === currentIndex);
   });
+
+  // Keep the currently playing song visible without forcing manual scrolling.
+  const activeItem = playlistListEl.children[currentIndex];
+  if (activeItem && playlistPanel.classList.contains('open')) {
+    activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 }
 
 /* ---------- Controls ---------- */
@@ -233,4 +246,12 @@ function formatTime(sec) {
 playlistToggle.addEventListener('click', () => {
   playlistPanel.classList.toggle('open');
   playlistToggle.classList.toggle('active-toggle');
+
+  if (playlistPanel.classList.contains('open')) {
+    // When opening, bring the current song into view.
+    const activeItem = playlistListEl.children[currentIndex];
+    if (activeItem) {
+      activeItem.scrollIntoView({ behavior: 'auto', block: 'nearest' });
+    }
+  }
 });
